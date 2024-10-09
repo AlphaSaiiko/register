@@ -104,7 +104,6 @@ h2 {
 	transition: .4s;
 }
 
-
 .login-form button {
 	background-color: green;
 	border: none;
@@ -314,3 +313,10 @@ body.dark-theme .blur-etoile
 	display: block;
 }	
 
+
+#toggle-password
+{
+	left: auto;
+	right: 10px;
+	cursor: pointer;
+}

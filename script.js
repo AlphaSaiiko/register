@@ -11,8 +11,15 @@ document.querySelectorAll('.blur-circle').forEach(circle => {
 		let shiftY = e.clientY - currentCircle.getBoundingClientRect().top;
 
 		function moveAt(pageX, pageY) {
-			currentCircle.style.left = pageX - shiftX + 'px';
-			currentCircle.style.top = pageY - shiftY + 'px';
+			const newX = pageX - shiftX;
+			const newY = pageY - shiftY;
+			const circleWidth = currentCircle.offsetWidth;
+			const circleHeight = currentCircle.offsetHeight;
+
+			if (!isInsideFrame(newX, newY, circleWidth, circleHeight)) {
+				currentCircle.style.left = newX + 'px';
+				currentCircle.style.top = newY + 'px';
+			}
 		}
 
 		function onMouseMove(event) {
@@ -48,6 +55,22 @@ document.addEventListener('keydown', (event) => {
 	}
 });
 
+// Définir les coordonnées de l'encadrement
+const frame = {
+	left: window.innerWidth / 4,
+	right: (window.innerWidth / 4) * 3,
+	top: window.innerHeight / 4,
+	bottom: (window.innerHeight / 4) * 3
+};
+
+function isInsideFrame(x, y, width, height) {
+	return (
+		x + width > frame.left &&
+		x < frame.right &&
+		y + height > frame.top &&
+		y < frame.bottom
+	);
+}
 // Initialiser l'état du switch et du thème
 window.addEventListener('load', function () {
 	const themeSwitch = document.getElementById('theme-switch');
@@ -87,9 +110,18 @@ window.addEventListener('load', function () {
 		circle.classList.add('blur-circle');
 		circle.style.setProperty('--color', planetColors[i]);
 		circle.style.setProperty('--size', `${Math.random() * 100 + 100}px`); // Taille aléatoire entre 100px et 200px
-		circle.style.setProperty('--x', `${Math.random() * window.innerWidth}px`); // Position x aléatoire
-		circle.style.setProperty('--y', `${Math.random() * window.innerHeight}px`); // Position y aléatoire
+
+		let x, y;
+		do {
+			x = Math.random() * window.innerWidth;
+			y = Math.random() * window.innerHeight;
+		} while (isInsideFrame(x, y, parseFloat(circle.style.getPropertyValue('--size')), parseFloat(circle.style.getPropertyValue('--size'))));
+
+		circle.style.setProperty('--x', `${x}px`); // Position x aléatoire
+		circle.style.setProperty('--y', `${y}px`); // Position y aléatoire
 		body.appendChild(circle);
+	}
+});
 
 		// Ajouter les gestionnaires d'événements pour le déplacement
 		circle.addEventListener('mousedown', function (e) {
@@ -127,8 +159,6 @@ window.addEventListener('load', function () {
 		circle.ondragstart = function () {
 			return false;
 		};
-	}
-});
 
 // changement de fond grâce au switch 
 document.getElementById('theme-switch').addEventListener('change', function () {
@@ -246,3 +276,17 @@ function triggerEasterEgg() {
 		}
 	});
 }
+
+// Gestion de la visibilité du mot de passe
+document.getElementById('toggle-password').addEventListener('click', function () {
+	const passwordInput = document.getElementById('password');
+	const passwordIcon = this.querySelector('span');
+
+	if (passwordInput.type === 'password') {
+		passwordInput.type = 'text';
+		passwordIcon.textContent = 'visibility_off';
+	} else {
+		passwordInput.type = 'password';
+		passwordIcon.textContent = 'visibility';
+	}
+});
