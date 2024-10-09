@@ -120,10 +120,7 @@ window.addEventListener('load', function () {
 		circle.style.setProperty('--x', `${x}px`); // Position x aléatoire
 		circle.style.setProperty('--y', `${y}px`); // Position y aléatoire
 		body.appendChild(circle);
-	}
-});
 
-		// Ajouter les gestionnaires d'événements pour le déplacement
 		circle.addEventListener('mousedown', function (e) {
 			// Arrêter le déplacement de l'ancien cercle
 			if (currentCircle) {
@@ -159,6 +156,10 @@ window.addEventListener('load', function () {
 		circle.ondragstart = function () {
 			return false;
 		};
+	}
+});
+
+		
 
 // changement de fond grâce au switch 
 document.getElementById('theme-switch').addEventListener('change', function () {
