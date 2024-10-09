@@ -9,7 +9,6 @@
 body{
 	margin: 0;
 	padding: 0;
-	background-image: url('../image/fond.png');
 	background-size: cover;
 	background-position: center;
 	height: 100vh;
@@ -17,6 +16,10 @@ body{
 	justify-content: center;
 	align-items: center;
 	font-family: 'Poppins', sans-serif;
+	background-color: #2d1b3c;
+	overflow: hidden;
+	position: relative;
+	-webkit-user-select: none;
 }
 
 .login-container {
@@ -139,4 +142,23 @@ h2 {
 	justify-content: center;
 	align-items: center;
 	font-size: 114px;
+}
+
+.blur-circle {
+	position: absolute;
+	width: var(--size);
+	height: var(--size);
+	background-color: var(--color);
+	border-radius: 50%;
+	filter: blur(40px);
+	top: var(--y);
+	left: var(--x);
+	opacity: 0.8;
+	transition: all 0.5s ease-in-out;
+		z-index: 0;
+}
+
+.blur-circle:hover {
+	filter: blur(20px);
+	transform: scale(1.2);
 }
